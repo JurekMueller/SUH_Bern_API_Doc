@@ -1,8 +1,12 @@
 # Smart Urban Heatmap Dokumentation
 
-[![de](https://img.shields.io/badge/lang-de-green.svg)](./README.de.md)
-[![en](https://img.shields.io/badge/lang-en-red.svg)](./README.md)
+[![de](https://img.shields.io/badge/lang-de-green.svg)](README.de.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
 
+
+[OpenAPI Documentation](Swagger)
+
+[jupyter notebook](python_examples.ipynb)
 
 Allgemeine Informationen inklusive Links zu yaml und Notizbuch (raw binder colab)
 
