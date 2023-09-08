@@ -1,0 +1,356 @@
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: "Smart Urban Heatmap API"
+  description: |
+    Deutsch
+    The Smart Urban Heatmap API offers access to detailed city climate data specifically for Bern, Switzerland. 
+    Users can retrieve current measurements of temperature, relative humidity, derived apparent temperature, and location metadata, as well as location bound time series data. 
+    The data provides valuable insights for urban planning and environmental studies.
+
+    **Licensing Information**  
+    This data is available under the Creative Commons Attribution License (CC-BY). Please ensure that you provide 
+    proper attribution when using or redistributing this data in your projects or applications.
+
+    **Attribution Example**  
+    Data provided by the Smart Urban Heatmap Project for Bern, Switzerland.
+
+  license:
+    name: "Creative Commons Attribution License (CC-BY)"
+    url: "https://creativecommons.org/licenses/by/4.0/"
+paths:
+  /pointMeasurments:
+    get:
+      summary: Retrieve current measurments and location metadata
+      description: |
+        Retrieves location data including most recent measured value for:
+        - Temperature is in Celsius (°C).
+        - Relative Humidity is in percentage (%).
+        - Apperent Temperature is in Celsius (°C).
+        
+        Measurments occur every 10 min.
+      parameters:
+        - name: locations
+          in: query
+          description: >
+            Locations for which to return time series data. Either
+            <ul>
+            <li>the string 'all'</li>
+            <li>locationIDs (comma separeted)</li>
+            <li>locationNames (comma separeted)</li>
+            </ul>
+            Note: This parameter is mutually exclusive with 'closestTo'. Only one can be used at a time.
+          example: 12,25,101
+          required: false
+          schema:
+            type: string
+            default: "all"
+            pattern: '^all$|^\d+(,\d+)*$|^[a-zA-Z]+(,[a-zA-Z]+)*$'
+        - name: closestTo
+          in: query
+          description: >
+            Returns location closest to specified coordinates in the WGS 84 system. Format: 'latitude,longitude' <br>
+            Note: This parameter is mutually exclusive with 'locations'. Only one can be used at a time.
+          required: false
+          example: "46.942,7.440"
+          schema:
+            type: string
+            pattern: '^-?\d+(\.\d+)?,-?\d+(\.\d+)?$'
+        - name: provider
+          in: query
+          description: >
+            Specify the data provider (station operators). Either
+            <ul>
+            <li>All: Data from all available station</li>
+            <li>GIUB: Institute of Geography of the University of Bern</li>
+            <li>ProjectSUHM: Project Smart Urban Heatmap constituted of Smart City Verein Bern, Meteotest, and Bern University of Applied Sciences</li>
+            </ul>
+          required: false
+          schema:
+            type: string
+            default: All
+            enum:
+              - All
+              - GIUB
+              - ProjectSUHM
+        - name: activeSince
+          in: query
+          description: Filters for locations measuring since a certain date.
+          required: false
+          example: "2022-08-01T12:00:00Z"
+          schema:
+            type: string
+            format: date-time
+            pattern: '^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z)$'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/geo+json:
+              schema:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    example: "FeatureCollection"
+                  features:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Feature'
+              example:
+                type: "FeatureCollection"
+                features: 
+                  - type: "Feature"
+                    geometry:
+                      type: "Point"
+                      coordinates: [47.545, 8.927]
+                    properties:
+                      locationId: 123
+                      locationName: "Bollwerk"
+                      altitude: 540
+                      heightAboveGround: 10
+                      locationDescription: "Messstation an Strassenlampe"
+                      activeSince: "2023-06-01T12:00:00Z"
+                      sensorType: 1
+                      dateObserved: "2023-08-01T12:00:00Z"
+                      temperature: 22.1
+                      relativeHumidity: 12.0
+                      apparentTemperature: 21.0
+                  - type: "Feature"
+                    geometry:
+                      type: "Point"
+                      coordinates: [47.379, 8.674]
+                    properties:
+                      locationId: 124
+                      locationName: "Neubrückstrasse"
+                      altitude: 559
+                      heightAboveGround: 10
+                      locationDescription: "Messstation in Kreisverkehr"
+                      activeSince: "2023-06-01T12:00:00Z"
+                      sensorType: 1
+                      dateObserved: "2023-08-01T12:00:00Z"
+                      temperature: 22.1
+                      relativeHumidity: 12.3
+                      apparentTemperature: 21.0
+            text/csv:
+              schema:
+                type: string
+                example: "dateObserved,locationID,locationName,lon,lat,temperature,relativeHumidity,apparentTemperature,sensorType,altitude,heightAboveGround,locationDescription\n2023-08-01T12:00:00Z,123,Bollwerk,47.545,8.927,22.1,12.0,21.0,1,540,10,Messstation an Strassenlampe\n2023-08-01T12:00:00Z,124,Neubrückstrasse,47.379,8.674,22.1,12.3,21.0,1,559,10,Messstation in Kreisverkehr"
+
+  /locationTimeSeries:
+    get:
+      summary: Retrieve measurment time series based on locationID
+      description: |
+        Retrieves time series based on locationID for:
+        - Temperature is in Celsius (°C).
+        - Relative Humidity is in percentage (%).
+        - Apparent Temperature is in Celsius (°C).
+      parameters:
+        - name: locations
+          in: query
+          description: >
+            Locations for which to return time series data. Either
+            <ul>
+            <li>the string 'all'</li>
+            <li>locationIDs (comma separeted)</li>
+            <li>locationNames (comma separeted)</li>
+            </ul>
+          example: 12,25,101
+          required: false
+          schema:
+            type: string
+            default: "all"
+            pattern: '^all$|^\d+(,\d+)*$|^[a-zA-Z]+(,[a-zA-Z]+)*$'
+
+        - name: timeFrom
+          in: query
+          required: false
+          description: >
+            Start time of request.
+    
+            Either
+            <ul>
+            <li>RFC3339 UTC (YYYY-MM-DDThh:mm:ssZ),</li>
+            <li>the string "now", or</li>
+            <li>a relative date/time string (relative with respect to the current time).</li>
+            </ul>
+    
+            Examples of relative date/time strings:
+    
+            <ul>
+            <li><code>now</code></li>
+            <li><code>-24hours</code></li>
+            <li><code>-30minutes</code></li>
+            <li><code>-3days</code></li>
+            </ul>
+          example: "2020-01-01T00:00:00Z"
+          schema:
+            type: string
+            pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z|now|-\\d+(minutes|hours|days)$"
+            default: "-24hours"
+    
+        - name: timeTo
+          in: query
+          required: false
+          description: >
+            End time of request.
+    
+            <p>
+              See <code>timeFrom</code> for details.
+            </p>
+          example: "2020-01-01T00:00:00Z"
+          schema:
+            type: string
+            pattern: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z|now|[-\\+]\\d+(minutes|hours|days)$"
+            default: "now"
+        - name: frequency
+          in: query
+          description: >
+            Frequency of time series.
+            <ul>
+            <li>Original: point data ca every 10 min</li>
+            <li>Hourly: aggregated timeseries by applying hourly mean</li>
+            </ul>
+          required: false
+          schema:
+            type: string
+            enum: ["original", "hourly"]
+            default: "original"
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  oneOf:
+                    - $ref: '#/components/schemas/locationTimeSeries'
+                    - $ref: '#/components/schemas/locationTimeSeriesHourly'
+              example:
+                - locationID: 123
+                  values:
+                    - sensorType: 1
+                      dateObserved: "2022-10-03T11:00:00Z"
+                      temperature: 21.0
+                      relativeHumidity: 13.5
+                      apparentTemperature: 22.5
+                    - sensorType: 1
+                      dateObserved: "2022-10-03T11:00:00Z"
+                      temperature: 21.0
+                      relativeHumidity: 13.5
+                      apparentTemperature: 22.5
+                - locationID: 124
+                  values:
+                    - sensorType: 1
+                      dateObserved: "2022-10-03T11:00:00Z"
+                      temperature: 21.0
+                      relativeHumidity: 13.5
+                      apparentTemperature: 22.5
+                    - sensorType: 1
+                      dateObserved: "2022-10-03T11:00:00Z"
+                      temperature: 21.0
+                      relativeHumidity: 13.5
+                      apparentTemperature: 22.5
+            text/csv:
+              schema:
+                type: string
+                example: "dateObserved,locationID,temperature,relativeHumidity,apparentTemperature,sensorType\n2022-10-03T11:00:00Z,123,21.0,13.5,22.5,1\n2022-10-03T11:00:00Z,123,21.0,13.5,22.5,1\n2022-10-03T11:00:00Z,124,21.0,13.5,22.5,1\n2022-10-03T11:00:00Z,124,21.0,13.5,22.5,1"
+
+components:
+  schemas:
+    Feature:
+      type: object
+      properties:
+        type:
+          type: string
+        geometry:
+          type: object
+          properties:
+            type:
+              type: string
+            coordinates:
+              type: array
+              items:
+                type: number
+        properties:
+          type: object
+          properties:
+            locationId:
+              type: integer
+            locationName:
+              type: string
+            altitude:
+              type: integer
+            heightAboveGround:
+              type: integer
+            locationDescription:
+              type: string
+            activeSince:
+              type: string
+              format: date-time
+            sensorType:
+              type: integer
+            dateObserved:
+              type: string
+              format: date-time
+            temperature:
+              type: number
+              description: "Temperature in Celsius (°C)"
+            relativeHumidity:
+              type: number
+              description: "Relative Humidity in percentage (%)"
+            apparentTemperature:
+              type: number
+              description: "Apparent Temperature in Celsius (°C)"
+
+    locationTimeSeries:
+      type: object
+      properties:
+        locationID:
+          type: integer
+        values:
+          type: array
+          items:
+            type: object
+            properties:
+              sensorType:
+                type: integer
+              dateObserved:
+                type: string
+                format: date-time
+              temperature:
+                type: number
+                description: "Temperature in Celsius (°C)"
+              relativeHumidity:
+                type: number
+                description: "Relative Humidity in percentage (%)"
+              apparentTemperature:
+                type: number
+                description: "Apparent Temperature in Celsius (°C)"
+
+    locationTimeSeriesHourly:
+      type: object
+      properties:
+        locationID:
+          type: integer
+        values:
+          type: array
+          items:
+            type: object
+            properties:
+              sensorType:
+                type: integer
+              date:
+                type: string
+                format: date-time
+              temperatureMean:
+                type: number
+                description: "Mean Temperature in Celsius (°C) for the hour"
+              relativeHumidityMean:
+                type: number
+                description: "Mean Relative Humidity in percentage (%) for the hour"
+              apparentTemperatureMean:
+                type: number
+                description: "Mean Apparent Temperature in Celsius (°C) for the hour"
+
