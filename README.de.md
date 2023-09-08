@@ -8,7 +8,14 @@
 
 [jupyter notebook](python_examples.ipynb)
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/JurekMueller/SUH_Bern_API_Doc/main?labpath=python_examples.ipynb)
+
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JurekMueller/SUH_Bern_API_Doc/blob/main/python_examples.ipynb)
+
+Markdown icon Copy markdown link to clipboard 
+
 Allgemeine Informationen inklusive Links zu yaml und Notizbuch (raw binder colab)
+
 
 **Inhaltsverzeichnis**
 
