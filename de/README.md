@@ -1,7 +1,7 @@
 # Smart Urban Heatmap Dokumentation
 
-[![de](https://img.shields.io/badge/lang-de-green.svg)](/de/)
-[![en](https://img.shields.io/badge/lang-en-red.svg)](/)
+[![de](https://img.shields.io/badge/lang-de-green.svg)](de)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](/../../)
 
 
 [OpenAPI Documentation](de/Swagger/)
