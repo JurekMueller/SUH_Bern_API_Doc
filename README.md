@@ -9,6 +9,10 @@ General Info including links to yaml, and notebook (raw binder colab)
 
 [jupyter notebook](python_examples.ipynb)
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/JurekMueller/SUH_Bern_API_Doc/main?labpath=python_examples.ipynb)
+
+[![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JurekMueller/SUH_Bern_API_Doc/blob/main/python_examples.ipynb)
+
 **Table of Contents**
 
 1. Changelog
