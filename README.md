@@ -1,7 +1,8 @@
 # Smart Urban Heatmap Dokumentation
 
-[![de](https://img.shields.io/badge/lang-de-green.svg)](./README.de)
-[![en](https://img.shields.io/badge/lang-en-red.svg)](./README)
+[![de](https://img.shields.io/badge/lang-de-green.svg)](README.de.md)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](README.md)
+
 
 General Info including links to yaml, and notebook (raw binder colab)
 
