@@ -1,10 +1,10 @@
 # Smart Urban Heatmap Dokumentation
 
 [![de](https://img.shields.io/badge/lang-de-green.svg)](de)
-[![en](https://img.shields.io/badge/lang-en-red.svg)](/../../)
+[![en](https://img.shields.io/badge/lang-en-red.svg)](../../)
 
 
-[OpenAPI Documentation](de/Swagger/)
+[OpenAPI Documentation](Swagger)
 
 [jupyter notebook](python_examples.ipynb)
 
