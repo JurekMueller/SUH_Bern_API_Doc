@@ -1,23 +1,27 @@
-# Smart Urban Heatmap Dokumentation <!-- omit in toc -->
+# Smart Urban Heat Map API Documentation <!-- omit in toc -->
 
 [![de](https://img.shields.io/badge/lang-de-green.svg)](de)
 [![en](https://img.shields.io/badge/lang-en-red.svg)](./)
 
 
-This documentation describes the **Open-Data API** of the [Smart Urban Heatmap Bern Project](https://urban-heat.meteotest.io).  
+This documentation describes the **Open-Data API** of the [Smart Urban Heat Map Bern Project](https://urban-heat.meteotest.ch).  
 
 The Smart Urban Heat Map is an initiative of the [Smart City Verein Bern](https://www.smartcity-bern.ch/) to visualize urban heat in the city and region of Bern. Valuable pioneering work has been done by the Climatology Group at the [Geographical Institute of the University of Bern (GIUB)](https://www.geography.unibe.ch/index_eng.html), which has been operating an urban measurement network since 2018, consisting of around 80 stations. The Smart City Verein Bern, together with the company [Abilium GmbH](https://www.abilium.io/), the [Bern University of Applied Sciences](https://www.bfh.ch/de/forschung/forschungsbereiche/public-sector-transformation/) and the company [Meteotest](https://meteotest.ch/), has extended this measuring network into the Bern region by around 40 measuring stations.
 
-Based on this measurement network, the Smart Urban Heatmap API offers access to detailed city climate data for the region of Bern, Switzerland. Users can retrieve current measurements of temperature, relative humidity, and location metadata, as well as location bound time series data. The data provides valuable insights for urban planning and environmental studies.
+Based on this measurement network, the Smart Urban Heat Map API offers access to detailed city climate data for the region of Bern, Switzerland. Users can retrieve current measurements of temperature, relative humidity, and location metadata, as well as location-bound time series data. The data provides valuable insights for urban planning and environmental studies.
 
-The documentation is complemented by an [interactive OpenAPI specification](Swagger) and a [python notebook](python_examples.ipynb) which includes examples of how to request and visualize the data using python.  
+The documentation is complemented by an [interactive OpenAPI specification](Swagger) and a [python notebook](python_examples.ipynb) which includes examples of how to request and visualize the data using Python.  
 The notebook can be run **locally or directly in the browser** using [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/JurekMueller/SUH_Bern_API_Doc/main?labpath=python_examples.ipynb)
 or [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JurekMueller/SUH_Bern_API_Doc/blob/main/python_examples.ipynb).
 
 **Licensing Information**  
 The data from the API is available under the [Creative Commons Attribution License (CC-BY)](https://creativecommons.org/licenses/by/4.0/).  
 Please ensure that you provide proper attribution when using or redistributing this data in your projects or applications.  
-*Attribution Example:* Data provided by the Smart Urban Heatmap Project for Bern, Switzerland.
+*Attribution Example:* Data provided by the Smart Urban Heat Map Project for Bern, Switzerland.
+
+**Contact Information**  
+For questions regarding the data, please contact the [BFH](mailto:jurek.mueller@bfh.ch).  
+For technical questions regarding the API, please contact [Meteotest](mailto:office@meteotest.ch).
 
 **Table of Contents**
 - [Changelog](#changelog)
@@ -30,66 +34,61 @@ Please ensure that you provide proper attribution when using or redistributing t
 
 ### API Version 1.0 <!-- omit in toc -->
 
-This is the first Version of the Smart Urban Heatmap API published on the XX.09.2023.
-
-
+This is the first version of the Smart Urban Heat Map API published on 09.10.2023.
 
 ## Stations, Sensors and Temperature Bias
+The measuring stations are built by [Abilium GmbH](https://www.abilium.io/) and are based on the [SHT41A](https://www.mouser.ch/datasheet/2/682/Datasheet_SHT4x-3003109.pdf) Sensorion sensors.  
+The self-sufficient stations are outfitted with a small solar panel and measure temperature and relative humidity every 10 minutes.  
+The measurement data is sent out via the Helium LoRaWAN network.  
+To reduce the potential temperature bias when stations are exposed to direct sunlight, all stations are ventilated before measuring.  
+**However, in some cases, especially during the day, measured temperatures might still be slightly higher than actual temperatures.**
 
 ## Endpoints
 
-### Stations <!-- omit in toc -->
+### stations <!-- omit in toc -->
 
-Retrieves location data including most recent measured value for:
+Retrieves station data including most recent measured value for:
 
 * Temperature is in Celsius (°C).
 * Relative Humidity is in percentage (%).
 
-**URL:** https://urban-heat.meteotest.io/api/1.0/stations  
-**Response Formats:** `GeoJSON` (default), `csv`  
-**URL Parameter:**
-  * XXX  
+**URL:** https://urban-heat.meteotest.ch/api/1.0/stations  
+**Response Formats:** `GeoJSON` (default), `CSV`  
 
-### Timeseries <!-- omit in toc -->
-Retrieves time series based on locationID for:
+### timeseries <!-- omit in toc -->
+Retrieves time series based on stationId for:
 * Temperature is in Celsius (°C).
 * Relative Humidity is in percentage (%).
 
-**URL:** https://urban-heat.meteotest.io/api/1.0/timeseries  
-**Response Formats:** `JSON` (default), `csv`  
+**URL:** https://urban-heat.meteotest.ch/api/1.0/timeseries  
+**Response Formats:** `JSON` (default), `CSV`  
 **URL Parameter:**
-  * **locationID** (required): specifies from which location to return the timeseries
-  * **timeFrom** (optional, default: "-24hours"): specifies start of timeseries (Examples: "-3days","-24hours","-30minutes", "2023-08-01T00:00:00Z")
-  * **timeTo** (optional, default: "now"): specifies end of timeseries (Examples: "-3days","-24hours","-30minutes", "now", "2023-08-01T00:00:00Z")
+  * **stationId** (required): specifies from which station to return the time series
+  * **timeFrom** (optional, default: "-24hours"): specifies start of time series (Examples: "-3days","-24hours","-30minutes", "2023-10-01T00:00:00Z")
+  * **timeTo** (optional, default: "now"): specifies end of time series (Examples: "-3days","-24hours","-30minutes", "now", "2023-10-01T00:00:00Z")
 
 ## Codebook
 
-### Stations <!-- omit in toc -->
+### stations <!-- omit in toc -->
 
-- **coordinates**: Array representing the geographical coordinates (in WGS84) of the location (Latitude,Longitude) 
-- **locationId**: Unique identifier for the location (Example: 0F40CBFEFFE70FFE)
-- **locationName**: Name of the location (Example: "Sandrain-Bern")
-- **altitude**: Altitude of the location in meters (Example: 542)
-- **heightAboveGround**: Height above ground in meters (Example: 2)
-- **locationDescription**: Brief description of the location (Example: "Messstation an Strassenlampe")
-- **activeSince**: Date and time when the station became active (Example: "2023-06-01T12:00:00Z")
-- **sensorType**: Identifier for the type of sensor (Example: 1)
+- **coordinates**: Array representing the geographical coordinates (in WGS84) of the station (Latitude,Longitude) 
+- **stationId**: Unique identifier for the station (Example: "0F40CBFEFFE70FFE")
+- **name**: Name of the station (Example: "Sandrain-Bern")
 - **dateObserved**: Date and time of the last measurement (Example: "2023-08-01T12:00:00Z")
-- **temperature**: Last temperature measured at the location in °C (Example: 22.1)
-- **relativeHumidity**: Last relative humidity measured at the location in % (Example: 12)
-- **operator**: Name of the station's operator (Either "Smart City Verein Bern" or "Uni Bern GIUB")
+- **temperature**: Last temperature measured at the station in °C (Example: 18.925001)
+- **relativeHumidity**: Last relative humidity measured at the station in % (Example: 60.971848)
 
-### Timeseries <!-- omit in toc -->
+### timeseries <!-- omit in toc -->
 
+- **stationId**: Unique identifier for the station (Example: "0F40CBFEFFE70FFE")
 - **dateObserved**: Date and time of the measurement (Example: "2023-08-01T12:00:00Z")
-- **temperature**: Temperature measured at the location in °C (Example: 22.1)
-- **relativeHumidity**: Relative humidity measured at the location in % (Example: 12)
-- **sensorType**: Identifier for the type of sensor that did the measurement (Example: 1)
+- **temperature**: Temperature measured at the station in °C (Example: 18.925001)
+- **relativeHumidity**: Relative humidity measured at the station in % (Example: 60.971848)
 
 ## Example Requests
 
-### Request list of stations most recent measurements  <!-- omit in toc -->
-`GET https://urban-heat.meteotest.io/api/1.0/stations`
+### Request list of stations and most recent measurements  <!-- omit in toc -->
+`GET https://urban-heat.meteotest.ch/api/1.0/stations`
 
 ```json
 {
@@ -100,22 +99,16 @@ Retrieves time series based on locationID for:
       "geometry": {
         "type": "Point",
         "coordinates": [
-          47.545,
-          8.927
+          46.94067,
+          7.43141
         ]
       },
       "properties": {
-        "locationId": 123,
-        "locationName": "Bollwerk",
-        "altitude": 540,
-        "heightAboveGround": 10,
-        "locationDescription": "Messstation an Strassenlampe",
-        "activeSince": "2023-06-01T12:00:00Z",
-        "sensorType": 1,
-        "dateObserved": "2023-08-01T12:00:00Z",
-        "temperature": 22.1,
-        "relativeHumidity": 12,
-        "apparentTemperature": 21
+        "stationId": "3A0551FEFF6E959E",
+        "name": "Eigerplatz-Bern",
+        "dateObserved": "2023-10-05T11:36:29Z",
+        "temperature": 18.925001,
+        "relativeHumidity": 60.971848
       }
     },
     {
@@ -123,32 +116,47 @@ Retrieves time series based on locationID for:
       "geometry": {
         "type": "Point",
         "coordinates": [
-          47.379,
-          8.674
+          46.96681,
+          7.439139
         ]
       },
       "properties": {
-        "locationId": 124,
-        "locationName": "Neubrückstrasse",
-        "altitude": 559,
-        "heightAboveGround": 10,
-        "locationDescription": "Messstation in Kreisverkehr",
-        "activeSince": "2023-06-01T12:00:00Z",
-        "sensorType": 1,
-        "dateObserved": "2023-08-01T12:00:00Z",
-        "temperature": 22.1,
-        "relativeHumidity": 12.3,
-        "apparentTemperature": 21
+        "stationId": "140551FEFF6E959E",
+        "name": "Worblen-Ostermundigen",
+        "dateObserved": "2023-10-05T11:36:27Z",
+        "temperature": 18.791485,
+        "relativeHumidity": 62.507286
       }
-    }
+    },
+    ...
   ]
 }
 ```
 
 ### Request timeseries for a station  <!-- omit in toc -->
 
-`GET https://urban-heat.meteotest.io/api/1.0/timeseries?locationId=D33FCBFEFFE70FFE&timeFrom=2023-08-01T00:00:00Z&timeTo=2023-08-31T23:00:00Z`
+`GET https://urban-heat.meteotest.ch/api/1.0/timeseries?stationId=D33FCBFEFFE70FFE&timeFrom=2023-10-01T00:00:00Z&timeTo=2023-10-31T23:00:00Z`
 
 ```json
-EXAMPLE TO COME
+{
+  "stationId": "D33FCBFEFFE70FFE", 
+  "values": [
+    {
+      "dateObserved": "2023-10-01T00:05:45Z", 
+      "temperature": 14.193179, 
+      "relativeHumidity": 86.94652
+    },
+    {
+      "dateObserved": "2023-10-01T00:15:45Z", 
+      "temperature": 14.20386, 
+      "relativeHumidity": 87.801025
+    },
+    {
+      "dateObserved": "2023-10-01T00:25:45Z", 
+      "temperature": 14.03563, 
+      "relativeHumidity": 88.541084
+    },
+    ...
+  ]
+}
 ```
