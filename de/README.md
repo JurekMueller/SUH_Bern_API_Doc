@@ -10,14 +10,14 @@ Die Smart Urban Heat Map ist eine Initiative des [Smart City Vereins Bern](https
 
 Basierend auf diesem Messnetzwerk bietet die Smart Urban Heat Map API Zugriff auf detaillierte Stadtklimadaten für die Region Bern. Benutzer können aktuelle Messungen von Temperatur und relativer Luftfeuchtigkeit sowie Standortmetadaten und ortsgebundene Zeitreihendaten abrufen. Die Daten liefern wertvolle Erkenntnisse für Stadtplanung und Umweltstudien.
 
-Die Dokumentation wird durch eine [interaktive OpenAPI-Spezifikation](../Swagger) und ein [Python-Notizbuch](../python_examples.ipynb) ergänzt, das Beispiele für das Abrufen und Visualisierung der Daten mit Python enthält.
+Die Dokumentation wird durch eine [interaktive OpenAPI-Spezifikation](../Swagger) und ein [Jupyter Notebook](../python_examples.ipynb) ergänzt, das Beispiele für das Abrufen und Visualisierung der Daten mit Python enthält.
 Das Notizbuch kann **lokal oder direkt im Browser** mit [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/JurekMueller/SUH_Bern_API_Doc/main?labpath=python_examples.ipynb)
 oder [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JurekMueller/SUH_Bern_API_Doc/blob/main/python_examples.ipynb) ausgeführt werden.
 
 **Lizenzinformationen**  
 Die Daten der API stehen unter der [Creative Commons Attribution License (CC-BY)](https://creativecommons.org/licenses/by/4.0/) zur Verfügung.  
 Bitte stellen Sie sicher, dass Sie bei der Verwendung oder Weitergabe dieser Daten in Ihren Projekten oder Anwendungen die Urheber angeben.  
-*Attributionsbeispiel:* Daten bereitgestellt vom Smart Urban Heat Map Project für Bern, Schweiz.
+*Attributionsbeispiel:* Daten bereitgestellt vom Smart Urban Heat Map Projekt für Bern, Schweiz.
 
 **Kontaktinformationen**  
 Bei Fragen zu den Daten wenden Sie sich bitte an die [BFH] (mailto:jurek.mueller@bfh.ch).  

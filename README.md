@@ -10,7 +10,7 @@ The Smart Urban Heat Map is an initiative of the [Smart City Verein Bern](https:
 
 Based on this measurement network, the Smart Urban Heat Map API offers access to detailed city climate data for the region of Bern, Switzerland. Users can retrieve current measurements of temperature, relative humidity, and location metadata, as well as location-bound time series data. The data provides valuable insights for urban planning and environmental studies.
 
-The documentation is complemented by an [interactive OpenAPI specification](Swagger) and a [python notebook](python_examples.ipynb) which includes examples of how to request and visualize the data using Python.  
+The documentation is complemented by an [interactive OpenAPI specification](Swagger) and a [Jupyter Notebook](python_examples.ipynb) which includes examples of how to request and visualize the data using Python.  
 The notebook can be run **locally or directly in the browser** using [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/JurekMueller/SUH_Bern_API_Doc/main?labpath=python_examples.ipynb)
 or [![Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/JurekMueller/SUH_Bern_API_Doc/blob/main/python_examples.ipynb).
 
